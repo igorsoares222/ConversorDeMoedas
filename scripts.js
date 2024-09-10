@@ -3,15 +3,22 @@ const euroMoeda = document.querySelector(".moeda-euro")
 const libraMoeda = document.querySelector(".moeda-euro")
 const bitcoinMoeda = document.querySelector(".moeda-euro")
 
-function converterValor(){
-    const inputValor = document.querySelector(".valorInput").value
-    const moedaConvertidaBr = document.querySelector(".moeda-valor2")
-    const moedaConvertidaEstrangeira = document.querySelector(".moeda-valor")
+const converterValor = async() => {
+    const inputValor = document.querySelector(".valorInput").value;
+    const moedaConvertidaBr = document.querySelector(".moeda-valor2");
+    const moedaConvertidaEstrangeira = document.querySelector(".moeda-valor");
 
-    const dolarDia = 5.2
-    const euroDIa = 6.2
+    const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL").then(response => response.json())
+    
+    const dolarDia = data.USDBRL.high
+    const euroDia = data.EURBRL.high
+    const bitcoinDia = data.BTCBRL.high
+    
+    console.log(data)
+
+    
     const libraDia = 4.2
-    const bitcoinDia = 333.314
+    
 
     if(euroMoeda.value == "dolar"){
         moedaConvertidaEstrangeira.innerHTML = new Intl.NumberFormat("en-US", {
@@ -24,7 +31,7 @@ function converterValor(){
         moedaConvertidaEstrangeira.innerHTML = new Intl.NumberFormat("de-DE", {
             style: "currency",
             currency: "EUR"
-        }).format(inputValor / euroDIa)
+        }).format(inputValor / euroDia)
     }
 
     if(euroMoeda.value == "libra") {
